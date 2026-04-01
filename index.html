@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus AI Interface</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Google Fonts for typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for robust icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="theme-neon">
+
+    <div class="app-container" id="main-app">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <i class="fa-solid fa-magnifying-glass"></i> Search
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-desktop"></i> Computer
+                </a>
+                
+                <div class="nav-divider"></div>
+                
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-plus"></i> New thread
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-clock-rotate-left"></i> History
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-regular fa-compass"></i> Discover
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-border-all"></i> Spaces
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-chart-line"></i> Finance
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-regular fa-heart"></i> Health
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-ellipsis"></i> More
+                </a>
+            </nav>
+            
+            <div class="sidebar-bottom">
+                <div class="history-section">
+                    <div class="history-header">
+                        <h4>History</h4>
+                        <button id="clear-history" title="Clear all threads"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                    <p>Recent and active threads will appear here.</p>
+                </div>
+                
+                <!-- Settings Link -->
+                <a href="#" class="nav-item" id="settings-toggle">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </a>
+
+                <a href="#" class="sign-in-btn">
+                    <div class="sign-in-content">
+                        <i class="fa-regular fa-circle-user"></i> Sign In
+                    </div>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="center-container">
+                <!-- Flex Scroll Content Area (Contains Chat and Logo) -->
+                <div class="content-scroll-area" id="content-scroll-area">
+                    <!-- Sticky Chat Header Tabs (Hidden initially) -->
+                    <div class="chat-header-tabs" id="chat-header-tabs" style="display: none;">
+                        <a href="#" class="tab-link active"><i class="fa-solid fa-align-left"></i> Answer</a>
+                        <a href="#" class="tab-link"><i class="fa-solid fa-link"></i> Links</a>
+                        <a href="#" class="tab-link"><i class="fa-regular fa-image"></i> Images</a>
+                    </div>
+
+                    <!-- Main Header Logo -->
+                    <h1 class="logo" id="main-logo">NEXUS AI</h1>
+                    
+                    <!-- Chat Display Area -->
+                    <div id="chat-stream" style="display: none;"></div>
+
+                    <!-- Suggestions / Try Area -->
+                    <div class="suggestions-container" id="suggestions-area">
+                        <div class="suggestions-header">
+                            <i class="fa-solid fa-desktop"></i> Try Computer
+                        </div>
+                        
+                        <div class="suggestion-tabs">
+                            <button class="tab-btn active"><i class="fa-solid fa-code"></i> Create a prototype</button>
+                            <button class="tab-btn"><i class="fa-regular fa-envelope"></i> Lead generation</button>
+                            <button class="tab-btn"><i class="fa-solid fa-list"></i> Organize my life</button>
+                            <button class="tab-btn"><i class="fa-regular fa-eye"></i> Monitor the s...</button>
+                        </div>
+                        
+                        <div class="suggestion-list">
+                            <a href="#" class="suggestion-item">Create an internal tool for my team</a>
+                            <a href="#" class="suggestion-item">Create a mobile app prototype for my idea</a>
+                            <a href="#" class="suggestion-item">Set up an automated email or Slack workflow</a>
+                            <a href="#" class="suggestion-item">Build a dashboard tracking my business metrics</a>
+                            <a href="#" class="suggestion-item">Build a web app with user auth and a database</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Scroll Down Button -->
+                <button class="scroll-down-btn" id="scroll-down-btn" style="display: none;">
+                    <i class="fa-solid fa-arrow-down"></i>
+                </button>
+
+                <!-- Sticky Search Bar -->
+                <div class="search-sticky-wrapper">
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <div id="active-doc-pill" class="active-doc-pill" style="display: none;"></div>
+                            <textarea id="search-input" placeholder="Ask a follow-up..." rows="1"></textarea>
+                            
+                            <div class="search-controls">
+                                <div class="left-controls">
+                                    <input type="file" id="pdf-upload" accept=".pdf" style="display: none;">
+                                    <button class="action-btn" id="upload-btn" title="Attach Document"><i class="fa-solid fa-plus"></i></button>
+                                    <button class="pill-btn focus-btn"><i class="fa-solid fa-bullseye"></i> Focus <span>All</span></button>
+                                </div>
+                                <div class="right-controls">
+                                    <div class="model-selector-wrapper">
+                                        <button class="text-btn" id="model-select-btn">Model <span id="current-model-name">Flash 2.5</span> <i class="fa-solid fa-chevron-down"></i></button>
+                                        <div class="model-dropdown" id="model-dropdown">
+                                            <div class="model-option active" data-model="gemini-2.5-flash">
+                                                <div class="model-info">
+                                                    <span class="model-title">Gemini 2.5 Flash</span>
+                                                    <span class="model-desc">Fastest & most responsive</span>
+                                                </div>
+                                                <i class="fa-solid fa-check"></i>
+                                            </div>
+                                            <div class="model-option" data-model="gemini-1.5-pro">
+                                                <div class="model-info">
+                                                    <span class="model-title">Gemini 1.5 Pro</span>
+                                                    <span class="model-desc">High intelligence & complex reasoning</span>
+                                                </div>
+                                                <i class="fa-solid fa-check"></i>
+                                            </div>
+                                            <div class="model-option" data-model="gemini-1.5-flash">
+                                                <div class="model-info">
+                                                    <span class="model-title">Gemini 1.5 Flash</span>
+                                                    <span class="model-desc">Balanced performance</span>
+                                                </div>
+                                                <i class="fa-solid fa-check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="action-btn"><i class="fa-solid fa-microphone"></i></button>
+                                    <button class="action-btn submit-btn" id="submit-btn"><i class="fa-solid fa-arrow-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settings-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-sliders"></i> Nexus Configuration</h3>
+                <button class="close-modal" id="close-settings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Enter your private Google Gemini API Key to bypass collective rate limits.</p>
+                <div class="input-group">
+                    <label for="custom-api-key">Gemini API Key</label>
+                    <input type="password" id="custom-api-key" placeholder="AIzaSy...">
+                </div>
+                <div class="status-indicator" id="key-status">
+                    <span class="status-dot"></span> <span id="status-text">Using Default Key</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary-btn" id="clear-key">Clear</button>
+                <button class="primary-btn" id="save-key">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+</html>
